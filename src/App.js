@@ -29,7 +29,7 @@ function App() {
       </div>
 
       <header className={styles.header}>
-        <h1 className={styles.title}>Surge</h1>
+        <h1 className={styles.title}>getsur.ge</h1>
 
         <div className={styles.cardWrapper}>
           <div className={styles.card}>

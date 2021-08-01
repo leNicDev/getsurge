@@ -19,14 +19,16 @@
 
 .title {
     font-size: 5em;
-    color: #839b99;
+    color: #ffffff;
+    text-align: center;
+    padding-top: var(--gap-large);
 }
 
 .cardWrapper {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-top: 20vh;
+    padding-top: 18vh;
 }
 .card {
     display: inline-block;
