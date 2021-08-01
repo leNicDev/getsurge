@@ -24,6 +24,10 @@ function App() {
 
   return (
     <div>
+      <div className={styles.githubLink}>
+        <a href="https://github.com/leNicDev/getsurge" target="_blank"><img src="/img/github.svg" /></a>
+      </div>
+
       <div className={styles.backgroundWrapper}>
         <img className={styles.background} src="/img/background.png" />
       </div>
