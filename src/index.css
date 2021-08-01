@@ -1,13 +1,68 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600&display=swap');
+
+:root {
+    --color-bg: #0B1321;
+    --color-text: white;
+    --gap-small: 10px;
+    --gap-large: 20px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins';
+    font-weight: 400;
+    margin: 0;
+}
+
+input {
+    border: solid 2px transparent;
+    border-radius: 10px;
+    height: 45px;
+    padding: 0 20px;
+    box-shadow: rgba(99, 99, 99, 0.3) 0px 1px 4px 0px;
+    caret-color: var(--color-bg);
+    transition: box-shadow ease-in-out 150ms;
+    background-color: white;
+}
+input:focus {
+    border-color: var(--color-bg);
+}
+
+button {
+    border: solid 2px transparent;
+    border-radius: 10px;
+    height: 45px;
+    padding: 0 20px;
+    box-shadow: rgba(99, 99, 99, 0.3) 0px 1px 4px 0px;
+    cursor: pointer;
+    background-color: var(--color-bg);
+    color: white;
+    font-weight: 600;
+    transition: all ease-in-out 150ms;
+}
+button:hover {
+    color: var(--color-bg);
+    border-color: var(--color-bg);
+    background-color: var(--color-text);
+}
+
+a {
+    color: var(--color-bg);
+}
+
+tt {
+    font-family: monospace;
+    vertical-align: middle;
+    line-height: 2;
+    font-size: 1.2em;
 }

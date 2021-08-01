@@ -1,0 +1,42 @@
+.surgeInputWrapper {
+    position: relative;
+    display: inline-block;
+}
+.surgeAmountInput {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-right: 60px;
+}
+.surgeInputSuffix {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: .5;
+    font-size: .8em;
+}
+.maxButton {
+    border-radius: 0;
+    background-color: white;
+    color: var(--color-bg);
+    box-shadow: rgba(99, 99, 99, 0.3) 3px 1px 4px 0px;
+}
+.maxButton:hover {
+    border-color: transparent;
+}
+.sellButton {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.error {
+    border-color: red;
+}
+.errorMessage {
+    color: red;
+    font-size: .8em;
+}

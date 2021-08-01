@@ -1,0 +1,5 @@
+.navigation {
+    display: flex;
+    gap: var(--gap-small);
+    margin-bottom: var(--gap-large);
+}

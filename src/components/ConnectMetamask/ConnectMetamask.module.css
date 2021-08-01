@@ -1,0 +1,11 @@
+.prompt {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-large);
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--gap-small);
+}

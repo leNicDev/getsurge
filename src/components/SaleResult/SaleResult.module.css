@@ -1,0 +1,12 @@
+.statusMessageWrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-large);
+    margin-bottom: var(--gap-large);
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: var(--gap-large);
+}
