@@ -8,10 +8,12 @@ import BuyResult from '../BuyResult/BuyResult'
 import { bnbBalanceState, buyingState, buyResultState, showBuyResultState } from '../../state/state'
 import Spinner from '../Spinner/Spinner'
 import classNames from 'classnames'
+import { estimateSurgeOutputAmount } from '../../common/price'
 
 export default function BuyForm() {
     const [amountValid, setAmountValid] = useState(true)
     const [amountValidMessage, setAmountValidMessage] = useState("")
+    const [estimatedOutputAmount, setEstimatedOutputAmount] = useState(0)
 
     const [buying, setBuying] = useRecoilState(buyingState)
     const [buyResult, setBuyResult] = useRecoilState(buyResultState)
@@ -39,13 +41,19 @@ export default function BuyForm() {
         return amountValid
     }
 
-    const onInputChange = (event) => {
+    const onInputChange = async (event) => {
         const bnbAmount = event.target.value
         validateAmount(bnbAmount)
+
+        const estimatedOutputAmount = await estimateSurgeOutputAmount(Number(bnbAmount))
+        setEstimatedOutputAmount(estimatedOutputAmount)
     }
 
-    const setMaxAmount = () => {
+    const setMaxAmount = async () => {
         document.getElementById('amount').value = bnbBalance
+
+        const estimatedOutputAmount = await estimateSurgeOutputAmount(Number(bnbBalance))
+        setEstimatedOutputAmount(estimatedOutputAmount)
     }
 
     const onSubmit = async (event) => {
@@ -95,6 +103,7 @@ export default function BuyForm() {
                 })}>{buying ? <Spinner /> : 'Buy'}</button>
             </form>
             <span className={`${styles.errorMessage} ${amountValid ? styles.hidden : ''}`}>{amountValidMessage}</span>
+            <span>≈ {estimatedOutputAmount} Surge</span>
         </div>
     }
 }

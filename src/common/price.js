@@ -1,5 +1,5 @@
 import Web3 from 'web3'
-import { BNB_CONTRACT_ABI, BNB_CONTRACT_ADDRESS, SURGE_CONTRACT_ABI, SURGE_CONTRACT_ADDRESS } from './constants'
+import { SURGE_CONTRACT_ABI, SURGE_CONTRACT_ADDRESS } from './constants'
 
 const web3 = new Web3(window.ethereum)
 
@@ -9,7 +9,8 @@ const web3 = new Web3(window.ethereum)
  */
 export async function getSurgePriceInBnb() {
     const SurgeContract = new web3.eth.Contract(SURGE_CONTRACT_ABI, SURGE_CONTRACT_ADDRESS)
-    return SurgeContract.methods.calculatePrice().call()
+    const price = await SurgeContract.methods.calculatePrice().call()
+    return web3.utils.fromWei(String(price), "ether")
 }
 
 /**
@@ -36,4 +37,24 @@ async function balanceOf(contractAbi, contractAddress, holderAddress) {
     const Contract = new web3.eth.Contract(contractAbi, contractAddress)
 
     return Contract.methods.balanceOf(holderAddress).call()
+}
+
+/**
+ * Estimate the Surge output amount when buying for a specific amount of BNB
+ * @param {number} bnbAmount 
+ * @returns The estimated output amount of Surge when buying for the specified amount of BNB
+ */
+export async function estimateSurgeOutputAmount(bnbAmount) {
+    const surgeBnbPrice = await getSurgePriceInBnb()
+    return bnbAmount / surgeBnbPrice
+}
+
+/**
+ * Estimate the BNB output amount when selling a specific amount of Surge
+ * @param {number} surgeAmount 
+ * @returns The estimated output amount of BNB when selling a specified amount of Surge
+ */
+ export async function estimateBnbOutputAmount(surgeAmount) {
+    const surgeBnbPrice = await getSurgePriceInBnb()
+    return surgeAmount * surgeBnbPrice
 }

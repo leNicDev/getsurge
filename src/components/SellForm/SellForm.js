@@ -5,10 +5,12 @@ import { useRecoilState } from 'recoil'
 import { saleResultState, sellingState, showSaleResultState, surgeBalanceState } from '../../state/state'
 import SaleResult from '../SaleResult/SaleResult'
 import { useState } from 'react'
+import { estimateBnbOutputAmount } from '../../common/price'
 
 export default function SellForm() {
     const [amountValid, setAmountValid] = useState(true)
     const [amountValidMessage, setAmountValidMessage] = useState("")
+    const [estimatedOutputAmount, setEstimatedOutputAmount] = useState(0)
 
     const [selling, setSelling] = useRecoilState(sellingState)
     const [saleResult, setSaleResult] = useRecoilState(saleResultState)
@@ -36,13 +38,19 @@ export default function SellForm() {
         return amountValid
     }
 
-    const onInputChange = (event) => {
+    const onInputChange = async (event) => {
         const surgeAmount = event.target.value
         validateAmount(surgeAmount)
+
+        const estimatedOutputAmount = await estimateBnbOutputAmount(Number(surgeAmount))
+        setEstimatedOutputAmount(estimatedOutputAmount)
     }
 
-    const setMaxAmount = () => {
+    const setMaxAmount = async () => {
         document.getElementById('amount').value = surgeBalance
+
+        const estimatedOutputAmount = await estimateBnbOutputAmount(Number(surgeBalance))
+        setEstimatedOutputAmount(estimatedOutputAmount)
     }
 
     const onSubmit = async (event) => {
@@ -85,6 +93,7 @@ export default function SellForm() {
                 <button type="submit" className={styles.sellButton}>Sell</button>
             </form>
             <span className={`${styles.errorMessage} ${amountValid ? styles.hidden : ''}`}>{amountValidMessage}</span>
+            <span>≈ {estimatedOutputAmount} BNB</span>
         </div>
     }
 }

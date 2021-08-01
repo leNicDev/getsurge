@@ -43,8 +43,8 @@ function App() {
       const bnbBalance = await bnbBalanceOf(currentAccount)
       setBnbBalance(bnbBalance)
 
-      const surgePriceInBnb = await getSurgePriceInBnb()
-      setSurgeBnbPrice(surgePriceInBnb)
+      /*const surgePriceInBnb = await getSurgePriceInBnb()
+      setSurgeBnbPrice(surgePriceInBnb)*/
     }
 
     // update bnb balance, surge balance and surge price every few seconds
