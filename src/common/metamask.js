@@ -1,6 +1,13 @@
-import * as web3 from "web3"
+import Web3 from 'web3'
+
+const web3 = new Web3(window.ethereum)
 
 export const DESIRED_CHAIN_ID = "0x38"
+
+export async function getCurrentAccount() {
+    const accounts = await web3.eth.getAccounts()
+    return accounts[0] || null
+}
 
 export function numberToWei(num) {
     return parseInt(web3.utils.toWei(String(num), "ether")).toString(16)

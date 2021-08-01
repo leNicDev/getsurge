@@ -2,7 +2,7 @@ import styles from './SellForm.module.css'
 
 import { sellSurge } from '../../common/sell'
 import { useRecoilState } from 'recoil'
-import { saleResultState, sellingState, showSaleResultState } from '../../state/state'
+import { saleResultState, sellingState, showSaleResultState, surgeBalanceState } from '../../state/state'
 import SaleResult from '../SaleResult/SaleResult'
 import { useState } from 'react'
 
@@ -13,6 +13,7 @@ export default function SellForm() {
     const [selling, setSelling] = useRecoilState(sellingState)
     const [saleResult, setSaleResult] = useRecoilState(saleResultState)
     const [showSaleResult, setShowSaleResult] = useRecoilState(showSaleResultState)
+    const [surgeBalance, setSurgeBalance] = useRecoilState(surgeBalanceState)
 
     const validateAmount = (amount) => {
         let amountValid = false
@@ -38,6 +39,10 @@ export default function SellForm() {
     const onInputChange = (event) => {
         const surgeAmount = event.target.value
         validateAmount(surgeAmount)
+    }
+
+    const setMaxAmount = () => {
+        document.getElementById('amount').value = surgeBalance
     }
 
     const onSubmit = async (event) => {
@@ -73,10 +78,10 @@ export default function SellForm() {
         return <div>
             <form onSubmit={onSubmit}>
                 <div className={styles.surgeInputWrapper}>
-                    <input min="1" type="text" placeholder="Amount" onChange={onInputChange} className={`${styles.surgeAmountInput} ${amountValid ? '' : styles.error}`} />
+                    <input id="amount" min="1" type="text" placeholder="Amount" onChange={onInputChange} className={`${styles.surgeAmountInput} ${amountValid ? '' : styles.error}`} />
                     <span className={styles.surgeInputSuffix}>Surge</span>
                 </div>
-                <button className={styles.maxButton}>Max</button>
+                <button type="button" className={styles.maxButton} onClick={setMaxAmount}>Max</button>
                 <button type="submit" className={styles.sellButton}>Sell</button>
             </form>
             <span className={`${styles.errorMessage} ${amountValid ? styles.hidden : ''}`}>{amountValidMessage}</span>

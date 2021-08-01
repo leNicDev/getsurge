@@ -2,12 +2,13 @@ import styles from "./ConnectMetamask.module.css"
 
 import detectEthereumProvider from "@metamask/detect-provider"
 import { useRecoilState } from "recoil";
-import { metamaskConnected } from "../../state/state";
+import { currentAccountState, metamaskConnected } from "../../state/state";
 import { connectMetamask, DESIRED_CHAIN_ID, getCurrentChainId, switchToBsc } from "../../common/metamask";
 import { useEffect } from "react";
 
 export default function ConnectMetamask() {
     const [connected, setConnected] = useRecoilState(metamaskConnected)
+    const [currentAccount, setCurrentAccount] = useRecoilState(currentAccountState)
 
     useEffect(() => {
         (async () => {
@@ -25,12 +26,23 @@ export default function ConnectMetamask() {
 
             const accounts = await connectMetamask()
 
-            setConnected(accounts && accounts.length > 0 && chainId === DESIRED_CHAIN_ID)
+            if (accounts && accounts.length > 0) {
+                setConnected(true)
+                setCurrentAccount(accounts[0])
+            } else {
+                setConnected(false)
+                setCurrentAccount(null)
+            }
         })()
     }, [])
 
     const connect = async () => {
-        await connectMetamask()
+        const accounts = await connectMetamask()
+
+        if (accounts && accounts.length > 0) {
+            setCurrentAccount(accounts[0])
+        }
+
         const chainId = await getCurrentChainId()
 
         if (chainId !== DESIRED_CHAIN_ID) {

@@ -34,3 +34,23 @@ export const saleResultState = atom({
     key: 'saleResult',
     default: null,
 })
+
+export const surgeBalanceState = atom({
+    key: 'surgeBalance',
+    default: 0,
+})
+
+export const bnbBalanceState = atom({
+    key: 'bnbBalance',
+    default: 0,
+})
+
+export const currentAccountState = atom({
+    key: 'currentAccount',
+    default: null,
+})
+
+export const surgeBnbPriceState = atom({
+    key: 'surgeBnbPrice',
+    default: 0,
+})

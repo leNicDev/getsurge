@@ -5,7 +5,7 @@ import { SURGE_CONTRACT_ADDRESS } from '../../common/constants'
 import { useState } from 'react'
 import { useRecoilState } from 'recoil'
 import BuyResult from '../BuyResult/BuyResult'
-import { buyingState, buyResultState, showBuyResultState } from '../../state/state'
+import { bnbBalanceState, buyingState, buyResultState, showBuyResultState } from '../../state/state'
 import Spinner from '../Spinner/Spinner'
 import classNames from 'classnames'
 
@@ -16,6 +16,7 @@ export default function BuyForm() {
     const [buying, setBuying] = useRecoilState(buyingState)
     const [buyResult, setBuyResult] = useRecoilState(buyResultState)
     const [showBuyResult, setShowBuyResult] = useRecoilState(showBuyResultState)
+    const [bnbBalance, setBnbBalance] = useRecoilState(bnbBalanceState)
 
     const validateAmount = (amount) => {
         let amountValid = false
@@ -41,6 +42,10 @@ export default function BuyForm() {
     const onInputChange = (event) => {
         const bnbAmount = event.target.value
         validateAmount(bnbAmount)
+    }
+
+    const setMaxAmount = () => {
+        document.getElementById('amount').value = bnbBalance
     }
 
     const onSubmit = async (event) => {
@@ -81,10 +86,10 @@ export default function BuyForm() {
         return <div>
             <form className={styles.buyForm} onSubmit={onSubmit}>
                 <div className={styles.bnbInputWrapper}>
-                    <input type="text" min="0" placeholder="Amount" onChange={onInputChange} className={`${styles.bnbAmountInput} ${amountValid ? '' : styles.error}`} />
+                    <input type="text" id="amount" min="0" placeholder="Amount" onChange={onInputChange} className={`${styles.bnbAmountInput} ${amountValid ? '' : styles.error}`} />
                     <span className={styles.bnbInputSuffix}>BNB</span>
                 </div>
-                <button className={styles.maxButton}>Max</button>
+                <button type="button" className={styles.maxButton} onClick={setMaxAmount}>Max</button>
                 <button type="submit" className={classNames(styles.buyButton, {
                     [styles.buying]: buying
                 })}>{buying ? <Spinner /> : 'Buy'}</button>
