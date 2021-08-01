@@ -27,7 +27,7 @@ export const sellingState = atom({
 
 export const showSaleResultState = atom({
     key: 'showSaleResult',
-    default: true,
+    default: false,
 })
 
 export const saleResultState = atom({
