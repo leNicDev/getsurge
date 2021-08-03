@@ -3,6 +3,7 @@ import { createClient } from "redis"
 
 const NOMICS_API_ENDPOINT = "https://api.nomics.com/v1"
 const NOMICS_API_KEY = process.env.NOMICS_API_KEY
+const NOMICS_CURRENCY_NAME = "BNB"
 
 const BNB_PRICE_REDIS_KEY = "bnb_price"
 const BNB_PRICE_EXPIRE_SECONDS = 10
@@ -38,7 +39,7 @@ async function fetchPrice() {
     const json = await response.json()
 
     for (let currency of json) {
-        if (currency.currency !== "BNB") continue
+        if (currency.currency !== NOMICS_CURRENCY_NAME) continue
 
         return currency.rate
     }
