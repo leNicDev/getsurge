@@ -12,6 +12,7 @@ module.exports = async (req, res) => {
     const client = createClient({
         socket: { url: process.env.REDIS_URL, },
     })
+    await client.connect()
 
     let price = 0
 
