@@ -1,5 +1,6 @@
 import fetch from "node-fetch"
-import * as Redis from "ioredis"
+
+const Redis = require("ioredis")
 
 const NOMICS_API_ENDPOINT = "https://api.nomics.com/v1"
 const NOMICS_API_KEY = process.env.NOMICS_API_KEY
