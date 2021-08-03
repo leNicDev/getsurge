@@ -1,5 +1,5 @@
 import fetch from "node-fetch"
-import { createClient } from "redis"
+import * as Redis from "ioredis"
 
 const NOMICS_API_ENDPOINT = "https://api.nomics.com/v1"
 const NOMICS_API_KEY = process.env.NOMICS_API_KEY
@@ -9,10 +9,7 @@ const BNB_PRICE_REDIS_KEY = "bnb_price"
 const BNB_PRICE_EXPIRE_SECONDS = 10
 
 module.exports = async (req, res) => {
-    const client = createClient({
-        socket: { url: process.env.REDIS_URL, },
-    })
-    await client.connect()
+    const client = new Redis(process.env.REDIS_URL)
 
     let price = 0
 
