@@ -1,3 +1,4 @@
+import fetch from 'node-fetch'
 import Web3 from 'web3'
 import { SURGE_CONTRACT_ABI, SURGE_CONTRACT_ADDRESS } from './constants'
 
@@ -57,4 +58,13 @@ export async function estimateSurgeOutputAmount(bnbAmount) {
  export async function estimateBnbOutputAmount(surgeAmount) {
     const surgeBnbPrice = await getSurgePriceInBnb()
     return surgeAmount * surgeBnbPrice
+}
+
+/**
+ * Fetch the current BNB price in USD
+ */
+export async function fetchBnbUsdPrice() {
+    const response = await fetch('/api/bnbPrice')
+    const json = await response.json()
+    return json.price
 }

@@ -54,3 +54,8 @@ export const surgeBnbPriceState = atom({
     key: 'surgeBnbPrice',
     default: 0,
 })
+
+export const bnbUsdPriceState = atom({
+    key: 'bnbUsdPrice',
+    default: 0,
+})

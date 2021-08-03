@@ -4,11 +4,11 @@ import { useRecoilState } from 'recoil';
 
 import styles from './App.module.css';
 import { DESIRED_CHAIN_ID, getCurrentAccount, hasMetamask, onAccountsChanged, onChainChanged } from './common/metamask';
-import { bnbBalanceOf, getSurgePriceInBnb, surgeBalanceOf } from './common/price';
+import { bnbBalanceOf, fetchBnbUsdPrice, getSurgePriceInBnb, surgeBalanceOf } from './common/price';
 import Navigation from './components/Navigation/Navigation';
 import Buy from './pages/Buy/Buy';
 import Sell from './pages/Sell/Sell';
-import { bnbBalanceState, currentAccountState, metamaskConnected, surgeBalanceState, surgeBnbPriceState } from './state/state';
+import { bnbBalanceState, bnbUsdPriceState, currentAccountState, metamaskConnected, surgeBalanceState, surgeBnbPriceState } from './state/state';
 import NumberFormat from 'react-number-format';
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
   const [bnbBalance, setBnbBalance] = useRecoilState(bnbBalanceState)
   const [currentAccount, setCurrentAccount] = useRecoilState(currentAccountState)
   const [surgeBnbPrice, setSurgeBnbPrice] = useRecoilState(surgeBnbPriceState)
+  const [bnbUsdPrice, setBnbUsdPrice] = useRecoilState(bnbUsdPriceState)
 
   useEffect(() => {
     if (!hasMetamask) return
@@ -46,6 +47,9 @@ function App() {
 
       const surgePriceInBnb = await getSurgePriceInBnb()
       setSurgeBnbPrice(surgePriceInBnb)
+
+      const currentBnbUsdPrice = await fetchBnbUsdPrice()
+      setBnbUsdPrice(currentBnbUsdPrice)
     }
 
     // update bnb balance, surge balance and surge price every few seconds
@@ -60,7 +64,7 @@ function App() {
       </div>
 
       <header className={styles.header}>
-        <span className={styles.surgePrice}>Price: {surgeBnbPrice} BNB</span>
+        <span className={styles.surgePrice}>Price: {surgeBnbPrice} BNB / <NumberFormat value={bnbUsdPrice} displayType={'text'} thousandSeparator={true} prefix={'USD '} /></span>
         <div className={styles.surgeBalanceWrapper}>
           <img className={styles.surgeBalanceIcon} src="/img/wallet.svg" />
           <NumberFormat value={surgeBalance} displayType={'text'} thousandSeparator={true} suffix={' Surge'} />
