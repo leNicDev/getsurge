@@ -25,9 +25,7 @@ module.exports = async (req, res) => {
         await client.expire(BNB_PRICE_REDIS_KEY, BNB_PRICE_EXPIRE_SECONDS)
     }
 
-    res.json({
-        body: { price: Number(price) },
-    })
+    res.json({ price: Number(price) })
 }
 
 async function fetchPrice() {
