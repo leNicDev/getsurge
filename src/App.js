@@ -64,7 +64,7 @@ function App() {
       </div>
 
       <header className={styles.header}>
-        <span className={styles.surgePrice}>Price: {surgeBnbPrice} BNB / <NumberFormat value={bnbUsdPrice * surgePriceInBnb} displayType={'text'} thousandSeparator={true} prefix={'USD '} /></span>
+        <span className={styles.surgePrice}>Price: {surgeBnbPrice} BNB / <NumberFormat value={bnbUsdPrice * surgeBnbPrice} displayType={'text'} thousandSeparator={true} prefix={'USD '} /></span>
         <div className={styles.surgeBalanceWrapper}>
           <img className={styles.surgeBalanceIcon} src="/img/wallet.svg" />
           <NumberFormat value={surgeBalance} displayType={'text'} thousandSeparator={true} suffix={' Surge'} />
