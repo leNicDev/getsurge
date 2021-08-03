@@ -1,6 +1,6 @@
 .githubLink {
     position: absolute;
-    top: 50px;
+    top: 120px;
     right: 50px;
 }
 .githubLink img {
@@ -24,6 +24,23 @@
 }
 
 .header {
+    position: fixed;
+    height: 60px;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 0 var(--gap-large);
+    background-color: rgba(var(--color-bg), .5);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    color: white;
+    gap: var(--gap-small);
+}
+
+.content {
+    position: relative;
+    padding-top: 60px;
     min-height: 100vh;
 }
 
@@ -56,4 +73,18 @@
 }
 .buyForm {
     display: inline-block;
+}
+
+.surgePrice {
+    flex-grow: 1;
+}
+
+.surgeBalanceWrapper {
+    display: flex;
+    gap: var(--gap-small);
+    align-items: center;
+}
+.surgeBalanceIcon {
+    width: auto;
+    height: 32px;
 }

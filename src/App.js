@@ -9,6 +9,7 @@ import Navigation from './components/Navigation/Navigation';
 import Buy from './pages/Buy/Buy';
 import Sell from './pages/Sell/Sell';
 import { bnbBalanceState, currentAccountState, metamaskConnected, surgeBalanceState, surgeBnbPriceState } from './state/state';
+import NumberFormat from 'react-number-format';
 
 function App() {
   const [connected, setConnected] = useRecoilState(metamaskConnected)
@@ -43,8 +44,8 @@ function App() {
       const bnbBalance = await bnbBalanceOf(currentAccount)
       setBnbBalance(bnbBalance)
 
-      /*const surgePriceInBnb = await getSurgePriceInBnb()
-      setSurgeBnbPrice(surgePriceInBnb)*/
+      const surgePriceInBnb = await getSurgePriceInBnb()
+      setSurgeBnbPrice(surgePriceInBnb)
     }
 
     // update bnb balance, surge balance and surge price every few seconds
@@ -54,15 +55,23 @@ function App() {
 
   return (
     <div>
-      <div className={styles.githubLink}>
-        <a href="https://github.com/leNicDev/getsurge" target="_blank"><img src="/img/github.svg" /></a>
-      </div>
-
       <div className={styles.backgroundWrapper}>
         <img className={styles.background} src="/img/background.png" />
       </div>
 
       <header className={styles.header}>
+        <span className={styles.surgePrice}>Price: {surgeBnbPrice} BNB</span>
+        <div className={styles.surgeBalanceWrapper}>
+          <img className={styles.surgeBalanceIcon} src="/img/wallet.svg" />
+          <NumberFormat value={surgeBalance} displayType={'text'} thousandSeparator={true} suffix={' Surge'} />
+        </div>
+      </header>
+
+      <main className={styles.content}>
+        <div className={styles.githubLink}>
+          <a href="https://github.com/leNicDev/getsurge" target="_blank"><img src="/img/github.svg" /></a>
+        </div>
+
         <h1 className={styles.title}>getsur.ge</h1>
 
         <div className={styles.cardWrapper}>
@@ -79,7 +88,7 @@ function App() {
             </Switch>
           </div>
         </div>
-      </header>
+      </main>
     </div>
   );
 }
