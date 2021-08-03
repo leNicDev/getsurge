@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     console.log('Redis URL', process.env.REDIS_URL)
 
     const client = createClient({
-        url: process.env.REDIS_URL,
+        socket: { url: process.env.REDIS_URL, },
     })
     await client.connect()
 
