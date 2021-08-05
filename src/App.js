@@ -22,7 +22,7 @@ function App() {
   const [bnbUsdPrice, setBnbUsdPrice] = useRecoilState(bnbUsdPriceState)
 
   useEffect(() => {
-    if (!hasMetamask) return
+    if (!hasMetamask()) return
 
     onChainChanged((chainId) => {
       if (chainId !== DESIRED_CHAIN_ID) {
