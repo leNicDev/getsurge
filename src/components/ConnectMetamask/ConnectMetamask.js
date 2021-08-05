@@ -55,7 +55,7 @@ export default function ConnectMetamask() {
     return <div>
         <div className={styles.prompt}>
             <img src="/img/metamask.svg" width="64" height="64" />
-            <span>You need to connect your <a href="https://metamask.io/" target="_blank">Metamask</a> wallet to be able to use this app.</span>
+            <span>You need to connect your <a href="https://metamask.io/" target="_blank" rel="noreferrer">Metamask</a> wallet to be able to use this app.</span>
         </div>
 
         <div className={styles.actions}>

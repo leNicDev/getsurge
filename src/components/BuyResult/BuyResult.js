@@ -18,7 +18,7 @@ export default function BuyResult() {
                 <h2>Transaction was successful!</h2>
             </div>
 
-            <p>Transaction ID: <a href={`https://bscscan.com/tx/${buyResult}`} target="_blank"><tt>{buyResult}</tt></a></p>
+            <p>Transaction ID: <a href={`https://bscscan.com/tx/${buyResult}`} target="_blank" rel="noreferrer"><tt>{buyResult}</tt></a></p>
         
             <div className={styles.actions}>
                 <button onClick={dismiss}>OK</button>

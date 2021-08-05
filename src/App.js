@@ -1,22 +1,24 @@
 import { useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import styles from './App.module.css';
 import { DESIRED_CHAIN_ID, getCurrentAccount, hasMetamask, onAccountsChanged, onChainChanged } from './common/metamask';
-import { bnbBalanceOf, fetchBnbUsdPrice, getSurgePriceInBnb, surgeBalanceOf } from './common/price';
-import Navigation from './components/Navigation/Navigation';
-import Buy from './pages/Buy/Buy';
-import Sell from './pages/Sell/Sell';
-import { bnbBalanceState, bnbUsdPriceState, currentAccountState, metamaskConnected, surgeBalanceState, surgeBnbPriceState } from './state/state';
+import { bnbBalanceOf, fetchBnbUsdPrice, getSurgePriceInBnb, getSurgeUsdPriceInBnb, surgeBalanceOf, surgeUsdBalanceOf } from './common/price';
+import { bnbBalanceState, bnbUsdPriceState, currentAccountState, metamaskConnected, surgeBalanceState, surgeBnbPriceState, surgeUsdBalanceState, surgeUsdBnbPriceState } from './state/state';
 import NumberFormat from 'react-number-format';
+import Graphs from './pages/Graphs/Graphs';
+import Surge from './pages/Surge/Surge';
+import SurgeUsd from './pages/SurgeUsd/SurgeUsd';
 
 function App() {
   const [connected, setConnected] = useRecoilState(metamaskConnected)
   const [surgeBalance, setSurgeBalance] = useRecoilState(surgeBalanceState)
+  const [surgeUsdBalance, setSurgeUsdBalance] = useRecoilState(surgeUsdBalanceState)
   const [bnbBalance, setBnbBalance] = useRecoilState(bnbBalanceState)
   const [currentAccount, setCurrentAccount] = useRecoilState(currentAccountState)
   const [surgeBnbPrice, setSurgeBnbPrice] = useRecoilState(surgeBnbPriceState)
+  const [surgeUsdBnbPrice, setSurgeUsdBnbPrice] = useRecoilState(surgeUsdBnbPriceState)
   const [bnbUsdPrice, setBnbUsdPrice] = useRecoilState(bnbUsdPriceState)
 
   useEffect(() => {
@@ -42,11 +44,17 @@ function App() {
       const surgeBalance = await surgeBalanceOf(currentAccount)
       setSurgeBalance(surgeBalance)
 
+      const surgeUsdBalance = await surgeUsdBalanceOf(currentAccount)
+      setSurgeUsdBalance(surgeUsdBalance)
+
       const bnbBalance = await bnbBalanceOf(currentAccount)
       setBnbBalance(bnbBalance)
 
       const surgePriceInBnb = await getSurgePriceInBnb()
       setSurgeBnbPrice(surgePriceInBnb)
+
+      const surgeUsdPriceInBnb = await getSurgeUsdPriceInBnb()
+      setSurgeUsdBnbPrice(surgeUsdPriceInBnb)
 
       const currentBnbUsdPrice = await fetchBnbUsdPrice()
       setBnbUsdPrice(currentBnbUsdPrice)
@@ -64,6 +72,11 @@ function App() {
       </div>
 
       <header className={styles.header}>
+        <nav className={styles.navigation}>
+          <NavLink className={styles.navItem} activeClassName={styles.active} to="/surge">Surge</NavLink>
+          <NavLink className={styles.navItem} activeClassName={styles.active} to="/surgeusd">SurgeUSD</NavLink>
+          <NavLink className={styles.navItem} activeClassName={styles.active} to="/graphs">Graphs</NavLink>
+        </nav>
         <span className={styles.surgePrice}>Price: {surgeBnbPrice} BNB / <NumberFormat value={bnbUsdPrice * surgeBnbPrice} displayType={'text'} thousandSeparator={true} prefix={'USD '} /></span>
         <div className={styles.surgeBalanceWrapper}>
           <img className={styles.surgeBalanceIcon} src="/img/wallet.svg" />
@@ -73,21 +86,22 @@ function App() {
 
       <main className={styles.content}>
         <div className={styles.githubLink}>
-          <a href="https://github.com/leNicDev/getsurge" target="_blank"><img src="/img/github.svg" /></a>
+          <a href="https://github.com/leNicDev/getsurge" target="_blank" rel="noreferrer"><img src="/img/github.svg" /></a>
         </div>
 
         <h1 className={styles.title}>getsur.ge</h1>
 
         <div className={styles.cardWrapper}>
           <div className={styles.card}>
-            <Navigation />
-
             <Switch>
-              <Route exact path="/">
-                <Buy />
+              <Route path="/surge">
+                <Surge />
               </Route>
-              <Route exact path="/sell">
-                <Sell />
+              <Route path="/surgeusd">
+                <SurgeUsd />
+              </Route>
+              <Route path="/graphs">
+                <Graphs />
               </Route>
             </Switch>
           </div>

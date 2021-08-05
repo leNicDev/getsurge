@@ -35,7 +35,9 @@
     display: flex;
     align-items: center;
     color: white;
-    gap: var(--gap-small);
+    gap: var(--gap-large);
+    justify-content: space-between;
+    z-index: 1;
 }
 
 .content {
@@ -75,8 +77,27 @@
     display: inline-block;
 }
 
-.surgePrice {
-    flex-grow: 1;
+.navigation {
+    display: flex;
+    gap: var(--gap-large);
+    text-decoration: none;
+}
+
+.navigation a {
+    color: white;
+}
+
+.navItem {
+    text-decoration: none;
+    padding: 5px 15px;
+    border-radius: 10px;
+    box-shadow: rgba(99, 99, 99, 0.3) 0px 1px 4px 0px;
+    background-color: var(--color-bg);
+}
+.navItem.active {
+    background-color: white;
+    color: var(--color-bg);
+    font-weight: bold;
 }
 
 .surgeBalanceWrapper {

@@ -1,13 +1,11 @@
 import styles from './SellForm.module.css'
 
-import { sellSurge } from '../../common/sell'
 import { useRecoilState } from 'recoil'
-import { saleResultState, sellingState, showSaleResultState, surgeBalanceState } from '../../state/state'
+import { saleResultState, sellingState, showSaleResultState } from '../../state/state'
 import SaleResult from '../SaleResult/SaleResult'
 import { useState } from 'react'
-import { estimateBnbOutputAmount } from '../../common/price'
 
-export default function SellForm() {
+export default function SellForm(props) {
     const [amountValid, setAmountValid] = useState(true)
     const [amountValidMessage, setAmountValidMessage] = useState("")
     const [estimatedOutputAmount, setEstimatedOutputAmount] = useState(0)
@@ -15,7 +13,6 @@ export default function SellForm() {
     const [selling, setSelling] = useRecoilState(sellingState)
     const [saleResult, setSaleResult] = useRecoilState(saleResultState)
     const [showSaleResult, setShowSaleResult] = useRecoilState(showSaleResultState)
-    const [surgeBalance, setSurgeBalance] = useRecoilState(surgeBalanceState)
 
     const validateAmount = (amount) => {
         let amountValid = false
@@ -42,14 +39,14 @@ export default function SellForm() {
         const surgeAmount = event.target.value
         validateAmount(surgeAmount)
 
-        const estimatedOutputAmount = await estimateBnbOutputAmount(Number(surgeAmount))
+        const estimatedOutputAmount = await props.outputAmountFunction(Number(surgeAmount))
         setEstimatedOutputAmount(estimatedOutputAmount)
     }
 
     const setMaxAmount = async () => {
-        document.getElementById('amount').value = surgeBalance
+        document.getElementById('amount').value = props.balance
 
-        const estimatedOutputAmount = await estimateBnbOutputAmount(Number(surgeBalance))
+        const estimatedOutputAmount = await props.outputAmountFunction(Number(props.balance))
         setEstimatedOutputAmount(estimatedOutputAmount)
     }
 
@@ -67,7 +64,7 @@ export default function SellForm() {
 
         let result;
         try {
-            result = await sellSurge(surgeAmount)
+            result = await props.sellFunction(surgeAmount)
             setSaleResult(result)
         } catch (err) {
             result = null;
@@ -87,13 +84,13 @@ export default function SellForm() {
             <form onSubmit={onSubmit}>
                 <div className={styles.surgeInputWrapper}>
                     <input id="amount" min="1" type="text" placeholder="Amount" onChange={onInputChange} className={`${styles.surgeAmountInput} ${amountValid ? '' : styles.error}`} />
-                    <span className={styles.surgeInputSuffix}>Surge</span>
+                    <span className={styles.surgeInputSuffix}>{props.inputCurrency}</span>
                 </div>
                 <button type="button" className={styles.maxButton} onClick={setMaxAmount}>Max</button>
                 <button type="submit" className={styles.sellButton}>Sell</button>
             </form>
             <span className={`${styles.errorMessage} ${amountValid ? styles.hidden : ''}`}>{amountValidMessage}</span>
-            <span>≈ {estimatedOutputAmount} BNB</span>
+            <span>≈ {estimatedOutputAmount} {props.outputCurrency}</span>
         </div>
     }
 }

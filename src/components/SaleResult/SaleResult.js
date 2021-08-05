@@ -18,7 +18,7 @@ export default function SaleResult() {
                 <h2>Transaction was successful!</h2>
             </div>
 
-            <p>Transaction ID: <a href={`https://bscscan.com/tx/${saleResult.transactionHash}`} target="_blank"><tt>{saleResult.transactionHash}</tt></a></p>
+            <p>Transaction ID: <a href={`https://bscscan.com/tx/${saleResult.transactionHash}`} target="_blank" rel="noreferrer"><tt>{saleResult.transactionHash}</tt></a></p>
         
             <div className={styles.actions}>
                 <button onClick={dismiss}>OK</button>

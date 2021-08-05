@@ -10,7 +10,7 @@ import Spinner from '../Spinner/Spinner'
 import classNames from 'classnames'
 import { estimateSurgeOutputAmount } from '../../common/price'
 
-export default function BuyForm() {
+export default function BuyForm(props) {
     const [amountValid, setAmountValid] = useState(true)
     const [amountValidMessage, setAmountValidMessage] = useState("")
     const [estimatedOutputAmount, setEstimatedOutputAmount] = useState(0)
@@ -45,14 +45,14 @@ export default function BuyForm() {
         const bnbAmount = event.target.value
         validateAmount(bnbAmount)
 
-        const estimatedOutputAmount = await estimateSurgeOutputAmount(Number(bnbAmount))
+        const estimatedOutputAmount = await props.outputAmountFunction(Number(bnbAmount))
         setEstimatedOutputAmount(estimatedOutputAmount)
     }
 
     const setMaxAmount = async () => {
         document.getElementById('amount').value = bnbBalance
 
-        const estimatedOutputAmount = await estimateSurgeOutputAmount(Number(bnbBalance))
+        const estimatedOutputAmount = await props.outputAmountFunction(Number(bnbBalance))
         setEstimatedOutputAmount(estimatedOutputAmount)
     }
 
@@ -70,7 +70,7 @@ export default function BuyForm() {
 
         const txParams = {
             nonce: '0x00',
-            to: SURGE_CONTRACT_ADDRESS,
+            to: props.contractAddress,
             from: await getSelectedAddress(),
             value: numberToWei(bnbAmount),
         }
@@ -103,7 +103,7 @@ export default function BuyForm() {
                 })}>{buying ? <Spinner /> : 'Buy'}</button>
             </form>
             <span className={`${styles.errorMessage} ${amountValid ? styles.hidden : ''}`}>{amountValidMessage}</span>
-            <span>≈ {estimatedOutputAmount} Surge</span>
+            <span>≈ {estimatedOutputAmount} {props.outputCurrency}</span>
         </div>
     }
 }
