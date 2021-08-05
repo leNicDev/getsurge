@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { NavLink, Route, Switch } from 'react-router-dom';
+import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import styles from './App.module.css';
@@ -94,6 +94,7 @@ function App() {
         <div className={styles.cardWrapper}>
           <div className={styles.card}>
             <Switch>
+              <Redirect exact from="/" to="/surge" />
               <Route path="/surge">
                 <Surge />
               </Route>
