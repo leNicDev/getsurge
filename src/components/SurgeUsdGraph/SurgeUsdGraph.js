@@ -1,6 +1,6 @@
 import fetch from "node-fetch"
 import { useEffect, useState } from "react"
-import { VictoryChart, VictoryLine } from 'victory';
+import { VictoryChart, VictoryLine, VictoryVoronoiContainer, VictoryTooltip } from 'victory';
 import styles from "./SurgeUsdGraph.module.css"
 
 export default function SurgeUsdGraph() {
@@ -26,7 +26,12 @@ export default function SurgeUsdGraph() {
     }, [])
 
     return <div className={styles.graphWrapper}>
-        <VictoryChart>
+        <VictoryChart containerComponent={
+            <VictoryVoronoiContainer
+                labels={({datum}) => `${new Date(datum.x).toLocaleString()}\n${Number(datum.y).toFixed(20).replace(/\.?0+$/,"")}`}
+                labelComponent={<VictoryTooltip cornerRadius={10} flyoutPadding={15} flyoutStyle={{ fill: '#0B1321' }} style={{ fill: 'white' }} />}
+            />
+        }>
             <VictoryLine data={priceData} />
         </VictoryChart>
     </div>
