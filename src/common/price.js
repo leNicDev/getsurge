@@ -91,7 +91,7 @@ export async function estimateBnbOutputAmount(contractAbi, contractAddress, surg
 
 export async function estimateSurgeBnbOutputAmount(inputAmount) {
     const price = await getCurrentPriceOfSurgeContract(SURGE_CONTRACT_ABI, SURGE_CONTRACT_ADDRESS)
-    return inputAmount / price
+    return inputAmount * price
 }
 
 export async function estimateSurgeUsdBusdOutputAmount(inputAmount) {
@@ -103,7 +103,7 @@ export async function estimateSurgeUsdBusdOutputAmount(inputAmount) {
  * Fetch the current BNB price in USD
  */
 export async function fetchBnbUsdPrice() {
-    const response = await fetch('/api/bnbPrice')
+    const response = await fetch('https://getsur.ge/api/bnbPrice')
     const json = await response.json()
     return json.price
 }
