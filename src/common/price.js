@@ -107,3 +107,15 @@ export async function fetchBnbUsdPrice() {
     const json = await response.json()
     return json.price
 }
+
+export async function getSurgeChangePercentage() {
+    const response = await fetch('https://api.getsur.ge/surge/changePercentage')
+    const json = await response.json()
+    return json.change
+}
+
+export async function getSurgeUsdChangePercentage() {
+    const response = await fetch('https://api.getsur.ge/surgeusd/changePercentage')
+    const json = await response.json()
+    return json.change
+}

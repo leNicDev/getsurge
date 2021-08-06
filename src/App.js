@@ -4,12 +4,13 @@ import { useRecoilState } from 'recoil';
 
 import styles from './App.module.css';
 import { DESIRED_CHAIN_ID, getCurrentAccount, hasMetamask, onAccountsChanged, onChainChanged } from './common/metamask';
-import { bnbBalanceOf, fetchBnbUsdPrice, getSurgePriceInBnb, getSurgeUsdPriceInBnb, surgeBalanceOf, surgeUsdBalanceOf } from './common/price';
-import { bnbBalanceState, bnbUsdPriceState, currentAccountState, metamaskConnected, surgeBalanceState, surgeBnbPriceState, surgeUsdBalanceState, surgeUsdBnbPriceState } from './state/state';
+import { bnbBalanceOf, fetchBnbUsdPrice, getSurgeChangePercentage, getSurgePriceInBnb, getSurgeUsdChangePercentage, getSurgeUsdPriceInBnb, surgeBalanceOf, surgeUsdBalanceOf } from './common/price';
+import { bnbBalanceState, bnbUsdPriceState, currentAccountState, metamaskConnected, surgeBalanceState, surgeBnbPriceState, surgeChangePercentageState, surgeUsdBalanceState, surgeUsdBnbPriceState, surgeUsdChangePercentageState } from './state/state';
 import NumberFormat from 'react-number-format';
 import Graphs from './pages/Graphs/Graphs';
 import Surge from './pages/Surge/Surge';
 import SurgeUsd from './pages/SurgeUsd/SurgeUsd';
+import ChangeIndicator from './components/ChangeIndicator/ChangeIndicator';
 
 function App() {
   const [connected, setConnected] = useRecoilState(metamaskConnected)
@@ -20,6 +21,8 @@ function App() {
   const [surgeBnbPrice, setSurgeBnbPrice] = useRecoilState(surgeBnbPriceState)
   const [surgeUsdBnbPrice, setSurgeUsdBnbPrice] = useRecoilState(surgeUsdBnbPriceState)
   const [bnbUsdPrice, setBnbUsdPrice] = useRecoilState(bnbUsdPriceState)
+  const [surgeChangePercentage, setSurgeChangePercentage] = useRecoilState(surgeChangePercentageState)
+  const [surgeUsdChangePercentage, setSurgeUsdChangePercentage] = useRecoilState(surgeUsdChangePercentageState)
 
   useEffect(() => {
     if (!hasMetamask()) return
@@ -37,6 +40,21 @@ function App() {
     })
 
     const updateBalances = async () => {
+      const surgeChangePercentage = await getSurgeChangePercentage()
+      setSurgeChangePercentage(surgeChangePercentage)
+
+      const surgeUsdChangePercentage = await getSurgeUsdChangePercentage()
+      setSurgeUsdChangePercentage(surgeUsdChangePercentage)
+
+      const surgePriceInBnb = await getSurgePriceInBnb()
+      setSurgeBnbPrice(surgePriceInBnb)
+
+      const surgeUsdPriceInBnb = await getSurgeUsdPriceInBnb()
+      setSurgeUsdBnbPrice(surgeUsdPriceInBnb)
+
+      const currentBnbUsdPrice = await fetchBnbUsdPrice()
+      setBnbUsdPrice(currentBnbUsdPrice)
+
       const currentAccount = await getCurrentAccount()
 
       if (!currentAccount) return
@@ -49,15 +67,6 @@ function App() {
 
       const bnbBalance = await bnbBalanceOf(currentAccount)
       setBnbBalance(bnbBalance)
-
-      const surgePriceInBnb = await getSurgePriceInBnb()
-      setSurgeBnbPrice(surgePriceInBnb)
-
-      const surgeUsdPriceInBnb = await getSurgeUsdPriceInBnb()
-      setSurgeUsdBnbPrice(surgeUsdPriceInBnb)
-
-      const currentBnbUsdPrice = await fetchBnbUsdPrice()
-      setBnbUsdPrice(currentBnbUsdPrice)
     }
 
     // update bnb balance, surge balance and surge price every few seconds
@@ -73,8 +82,8 @@ function App() {
 
       <header className={styles.header}>
         <nav className={styles.navigation}>
-          <NavLink className={styles.navItem} activeClassName={styles.active} to="/surge">Surge</NavLink>
-          <NavLink className={styles.navItem} activeClassName={styles.active} to="/surgeusd">SurgeUSD</NavLink>
+          <NavLink className={styles.navItem} activeClassName={styles.active} to="/surge">Surge <ChangeIndicator changePercentage={surgeChangePercentage} /></NavLink>
+          <NavLink className={styles.navItem} activeClassName={styles.active} to="/surgeusd">SurgeUSD <ChangeIndicator changePercentage={surgeUsdChangePercentage} /></NavLink>
           <NavLink className={styles.navItem} activeClassName={styles.active} to="/graphs">Graphs</NavLink>
         </nav>
         <span className={styles.surgePrice}>Price: {surgeBnbPrice} BNB / <NumberFormat value={bnbUsdPrice * surgeBnbPrice} displayType={'text'} thousandSeparator={true} prefix={'USD '} /></span>

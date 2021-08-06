@@ -1,0 +1,12 @@
+.changeIndicator {
+    text-align: center;
+    color: white;
+    font-size: .8em;
+    padding: 5px 10px;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: #ea3943;
+}
+.changeIndicator.up {
+    background-color: #16c784;
+}
