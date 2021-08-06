@@ -71,7 +71,7 @@ function App() {
 
     // update bnb balance, surge balance and surge price every few seconds
     updateBalances().then()
-    setInterval(updateBalances, 5000)
+    setInterval(updateBalances, 10000)
   }, [currentAccount])
 
   return (
