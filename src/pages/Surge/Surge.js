@@ -24,17 +24,13 @@ export default function Surge() {
         return <ConnectMetamask />
       }
   
-      return <Switch>
-          <Route path="/surge">
-            <SellForm
-              inputCurrency="Surge"
-              outputCurrency="BNB"
-              balance={surgeBalance}
-              outputAmountFunction={estimateSurgeBnbOutputAmount}
-              sellFunction={sellSurge}
-            />
-          </Route>
-      </Switch>
+      return <SellForm
+          inputCurrency="Surge"
+          outputCurrency="BNB"
+          balance={surgeBalance}
+          outputAmountFunction={estimateSurgeBnbOutputAmount}
+          sellFunction={sellSurge}
+      />
     }
 
     return <div>
