@@ -25,14 +25,7 @@ export default function Surge() {
       }
   
       return <Switch>
-          <Route exact path="/surge">
-            <BuyForm
-              outputCurrency="Surge"
-              outputAmountFunction={estimateSurgeOutputAmount}
-              contractAddress={SURGE_CONTRACT_ADDRESS}
-            />
-          </Route>
-          <Route path="/surge/sell">
+          <Route path="/surge">
             <SellForm
               inputCurrency="Surge"
               outputCurrency="BNB"
